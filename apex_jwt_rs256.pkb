@@ -134,7 +134,7 @@ CREATE OR REPLACE PACKAGE BODY APEX_JWT_RS256 AS
                 pubkey_alg => dbms_crypto.KEY_TYPE_RSA,
                 sign_alg => dbms_crypto.SIGN_SHA256_RSA)
         THEN
-            raise_application_error(-20502, 'JWT signature failed to validate');
+            raise_application_error(-20502, 'JWT signature failed cryptographic verification');
         END IF;
         -- Signature was valid, finish successfully
         p_payload:= v_token.payload;
