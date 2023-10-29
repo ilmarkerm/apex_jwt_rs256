@@ -80,6 +80,10 @@ BEGIN
     -- Do JWT token validation and check that correct group is granted to user
     -- 2023 Ilmar Kerm
     jwt_cookie:= owa_cookie.get('JWT_COOKIE_NAME');
+    IF jwt_cookie.vals.COUNT = 0 THEN
+        apex_debug.error('JWT session cookie not found');
+        RETURN false;
+    END IF;
     IF apex_jwt_rs256.decode_and_validate(jwt_cookie.vals(1), v_iss, v_jwt_payload) THEN
         -- JWT validated, now check the required group
         v_jwt_json:= json_object_t.parse(v_jwt_payload);
