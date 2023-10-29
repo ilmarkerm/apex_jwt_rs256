@@ -98,6 +98,10 @@ BEGIN
             apex_debug.error('Required group is missing from JWT: '||v_required_group);
             RETURN false;
         END IF;
+        IF v_jwt_json.get_string('token_use') != 'access' THEN
+            apex_debug.error('Invalid value for JWT attribute token_use');
+            RETURN false;
+        END IF;
         IF V('APP_USER') IS NULL OR V('APP_USER') = 'nobody' OR V('APP_USER') != v_jwt_json.get_string('username') THEN
             APEX_CUSTOM_AUTH.DEFINE_USER_SESSION(
                 p_user => v_jwt_json.get_string('username'),
