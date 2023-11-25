@@ -12,12 +12,13 @@ CREATE OR REPLACE PACKAGE APEX_JWT_RS256 AS
     Tables:
     create table jwks_key_cache(
         kid varchar2(50) primary key,
+        pkcs1 raw(500) not null,
         alg varchar2(20) not null,
         kty varchar2(20) not null,
         e varchar2(10) not null,
-        n varchar2(500) not null,
-        pkcs1 raw(500) not null
-    ) organization index;
+        n varchar2(500) not null
+    ) ORGANIZATION INDEX
+    INCLUDING pkcs1 OVERFLOW;
     */ 
 
     -- Implementing Base64URL docede - URL safe Base64
